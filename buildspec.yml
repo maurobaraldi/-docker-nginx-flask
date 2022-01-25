@@ -24,6 +24,8 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - aws ecs describe-task-definition --task-definition play9-task-prd | jq '.taskDefinition' > taskdef.json
+      - echo Deploy Play 9 Service.
+      - aws ecs update-service --force-new-deployment --service play9-service-prd --cluster play9-cluster-prd
       - envsubst < appspec_template.yaml > appspec.yaml
 artifacts:
   files:
