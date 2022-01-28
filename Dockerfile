@@ -1,3 +1,14 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.10
+#FROM python:3.8-alpine
+FROM public.ecr.aws/sam/build-python3.8:latest
 
-COPY ./app /app
+#RUN set -ex && apk add --no-cache gcc musl-dev build-base
+
+WORKDIR /code
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+CMD [ "python", "app/main.py" ]
